@@ -10,11 +10,13 @@
 
 class incident
 {
-    public $rowid;
-    public $category = 'admin';
+    public $ticketID;
+    public $date;
+    public $assignee = 'marynissen';
     public $description = 'undefined';
     public $resolution = NULL;
-    public $date;
+    public $timelogged = 0;
+    public $requestor = NULL;
 
     public function __construct()
     {
@@ -24,9 +26,8 @@ class incident
 
 class incidents
 {
-    public function __construct($keyword = NULL)
+    public function __construct($keyword = NULL, $assignee = NULL)
     {
-
         include "depend.php";
 
         // Based on the information we are supplied, build the query:
@@ -62,11 +63,13 @@ class incidents
         foreach ($incidents as $iRow)
         {
             $this->all[$iRow['rowid']] = new incident();
-            $this->all[$iRow['rowid']]->rowid = (int) $iRow['rowid'];
-            $this->all[$iRow['rowid']]->category = $iRow['category'];
+            $this->all[$iRow['rowid']]->ticketID = (int) $iRow['rowid'];
+            $this->all[$iRow['rowid']]->assignee = $iRow['assignee'];
             $this->all[$iRow['rowid']]->description = $iRow['description'];
             $this->all[$iRow['rowid']]->resolution = $iRow['resolution'];
             $this->all[$iRow['rowid']]->date = $iRow['date'];
+            $this->all[$iRow['rowid']]->timelogged = $iRow['timelogged'];
+            $this->all[$iRow['rowid']]->requestor = $iRow['requestor'];
         }
     }
 }
