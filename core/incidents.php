@@ -12,7 +12,7 @@ class incident
 {
     public $ticketID;
     public $date;
-    public $assignee = 'marynissen';
+    public $assignee = 'unassigned';
     public $description = 'undefined';
     public $resolution = NULL;
     public $timelogged = 0;
@@ -33,7 +33,7 @@ class incidents
         // Based on the information we are supplied, build the query:
 
         $query = 'SELECT RowID, * FROM incidents ';
-        $order = 'ORDER BY date DESC ';
+        $order = 'ORDER BY RowID DESC ';
         $where = 'WHERE ';
         if (isset($keyword))
         {
@@ -52,12 +52,6 @@ class incidents
         }
         $this->all = array();
 
-        /*
-            Debugging:
-            var_dump($dsdb);
-            var_dump($incidents);
-        */
-
         // Build an array of incidents
 
         foreach ($incidents as $iRow)
@@ -74,5 +68,36 @@ class incidents
     }
 }
 
+class saveIncident
+{
+    public function __construct(incident $incident)
+    {
+        include "depend.php";
+
+        // Generate query with prepared statement
+
+        $sql_saveIncident =
+        'INSERT INTO incidents (assignee, requestor, description, date, timelogged, resolution)
+        VALUES (:assignee, :requestor, :description, :date, :timelogged, :resolution)';
+
+        $pdo_saveIncident = $dsdb->prepare($sql_saveIncident);
+        $pdo_saveIncident->bindValue(':assignee', $incident->assignee);
+        $pdo_saveIncident->bindValue(':requestor', $incident->requestor);
+        $pdo_saveIncident->bindValue(':description', $incident->description);
+        $pdo_saveIncident->bindValue(':date', $incident->date);
+        $pdo_saveIncident->bindValue(':timelogged', $incident->timelogged);
+        $pdo_saveIncident->bindValue(':resolution', $incident->resolution);
+
+        try {
+                $result = $pdo_saveIncident->execute();
+            } catch (Exception $e)
+            {
+                echo 'Something went wrong! Exception: ';
+                echo $e;
+                echo ' PDO Result: ';
+                echo $result;
+            }
+    }
+}
 
 ?>

@@ -13,7 +13,7 @@ include "depend.php";
 function ticketView ($tickets)
 {
 
-    // Generate a list of open tickets based on an incidents object 
+    // Generate a list of open tickets based on an incidents object
 
     $ticketTable =
     '
@@ -55,28 +55,27 @@ function ticketInputForm ()
 
     $ticketInputForm =
     '
-    <form class="pure-form pure-form-aligned">
+    <form class="pure-form pure-form-aligned" method="post">
         <fieldset>
             <div class="pure-control-group">
                 <label for="assignee">Assign To:</label>
-                <input id="assignee" type="text" placeholder="AD Username">
+                <input id="assignee" name="assignee" type="text" placeholder="AD Username">
             </div>
             <div class="pure-control-group">
                 <label for="requestor">Requested By:</label>
-                <input id="assignee" type="text" placeholder="AD Username">
+                <input id="requestor" name="requestor" type="text" placeholder="AD Username">
             </div>
             <div class="pure-control-group">
                 <label for="description">Description:</label>
                 <textarea name="description" placeholder="Describe the problem" cols="50" rows="5"></textarea>
             </div>
-
             <div class="pure-control-group">
                 <label for="resolution">Resolution:</label>
                 <textarea name="resolution" placeholder="Optional" cols="50" rows="10"></textarea>
             </div>
             <div class="pure-control-group">
                 <label for="timelogged">Time Spent:</label>
-                <input id="timelogged" type="number" placeholder="If resolved">
+                <input id="timelogged" name="timelogged" type="number" placeholder="If resolved">
             </div>
             <div class="pure-controls">
                 <button type="submit" class="pure-button pure-button-primary">Save</button>

@@ -1,6 +1,21 @@
 <?php
 
 include "depend.php";
+
+if (isset($_POST['description']))
+{
+    try
+    {
+        $post = new ticketPost($_POST);
+        $post->save();
+    }
+    catch(Exception $e)
+    {
+        echo 'Something went wrong! ';
+        echo $e;
+    }
+}
+
 $tickets = new incidents();
 
 ?>
